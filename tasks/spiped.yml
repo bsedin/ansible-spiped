@@ -19,6 +19,7 @@
     image: '{{ spiped_image }}:{{ spiped_version }}'
     restart_policy: always
     links: '{{ item["links"] | default([]) }}'
+    networks: '{{ item["networks"] | default([]) }}'
     volumes:
       - '{{ spiped_keys_dir }}/{{ item.key }}:/spiped/key:ro'
     published_ports: '{{ item["published_ports"] | default([]) }}'
