@@ -1,0 +1,26 @@
+---
+- name: ensure spiped dir
+  file:
+    dest: '{{ spiped_keys_dir }}'
+    state: directory
+
+- name: copy keys
+  copy:
+    src: keys/{{ item.key }}
+    dest: '{{ spiped_keys_dir }}/{{ item.key }}'
+  with_items: '{{ spiped_containers }}'
+
+- name: run spiped containers
+  docker_container:
+    state: started
+    restart: yes
+    recreate: yes
+    name: '{{ item.name }}'
+    image: '{{ spiped_image }}:{{ spiped_version }}'
+    restart_policy: always
+    links: '{{ item["links"] | default([]) }}'
+    volumes:
+      - '{{ spiped_keys_dir }}/{{ item.key }}:/spiped/key:ro'
+    published_ports: '{{ item["published_ports"] | default([]) }}'
+    command: '{{ item.mode }} -s "{{ item.source }}" -t "{{ item.target }}"'
+  with_items: '{{ spiped_containers }}'
