@@ -4,3 +4,5 @@ spiped_keys_dir: '{{ spiped_dir }}/keys'
 spiped_image: spiped
 spiped_version: alpine
 spiped_containers: []
+spiped_published_ports: []
+spiped_networks: []

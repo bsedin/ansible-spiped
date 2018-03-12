@@ -32,6 +32,11 @@ spiped_containers:
       - postgresql
     published_ports:
       - '{{ ip }}:5432:5432'
+    networks:
+      - name: bridge
+        ipv4_address: 172.17.100.200
+        aliases:
+          - postgresql-alias
 ```
 
 Use role:
