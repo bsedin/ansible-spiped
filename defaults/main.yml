@@ -6,3 +6,4 @@ spiped_version: alpine
 spiped_containers: []
 spiped_published_ports: []
 spiped_networks: []
+spiped_maxconn: 100

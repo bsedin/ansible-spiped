@@ -20,8 +20,10 @@
     restart_policy: always
     links: '{{ item["links"] | default([]) }}'
     networks: '{{ item["networks"] | default([]) }}'
+    sysctls:
+      net.core.somaxconn: '{{ item["maxconn"] | default(spiped_maxconn) }}'
     volumes:
       - '{{ spiped_keys_dir }}/{{ item.key }}:/spiped/key:ro'
     published_ports: '{{ item["published_ports"] | default([]) }}'
-    command: '{{ item.mode }} -s "{{ item.source }}" -t "{{ item.target }}"'
+    command: '{{ item.mode }} -s "{{ item.source }}" -t "{{ item.target }}" -n {{ item["maxconn"] | default(spiped_maxconn) }}'
   with_items: '{{ spiped_containers }}'
