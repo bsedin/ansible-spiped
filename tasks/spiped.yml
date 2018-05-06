@@ -19,6 +19,7 @@
     image: '{{ spiped_image }}:{{ spiped_version }}'
     restart_policy: always
     links: '{{ item["links"] | default([]) }}'
+    network_mode: '{{ item["network_mode"] | default("bridge") }}'
     networks: '{{ item["networks"] | default([]) }}'
     sysctls:
       net.core.somaxconn: '{{ item["maxconn"] | default(spiped_maxconn) }}'
