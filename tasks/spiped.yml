@@ -21,10 +21,12 @@
     links: '{{ item["links"] | default([]) }}'
     network_mode: '{{ item["network_mode"] | default("bridge") }}'
     networks: '{{ item["networks"] | default([]) }}'
+    env: '{{ item["env"] | default({}) }}'
     sysctls:
       net.core.somaxconn: '{{ item["maxconn"] | default(spiped_maxconn) }}'
     volumes:
       - '{{ spiped_keys_dir }}/{{ item.key }}:/spiped/key:ro'
     published_ports: '{{ item["published_ports"] | default([]) }}'
+    exposed_ports: '{{ item["exposed_ports"] | default([]) }}'
     command: '{{ item.mode }} -s "{{ item.source }}" -t "{{ item.target }}" -n {{ item["maxconn"] | default(spiped_maxconn) }}'
   with_items: '{{ spiped_containers }}'
