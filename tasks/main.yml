@@ -1,2 +1,2 @@
-- include: spiped.yml
+- import_tasks: spiped.yml
   when: spiped_containers is defined
